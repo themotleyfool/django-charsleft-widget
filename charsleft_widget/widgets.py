@@ -23,7 +23,11 @@ class MediaMixin(object):
         js = ('charsleft-widget/js/charsleft.js',)
 
 
-class CharsLeftInput(forms.TextInput, MediaMixin): 
+class CharsLeftInput(forms.TextInput, MediaMixin):
+
+    def __init__(self, attrs=None, count_threshold=0):
+        super(CharsLeftInput, self).__init__(attrs=attrs)
+        self.count_threshold = count_threshold
 
     def render(self, name, value, attrs=None):
         if value is None:
@@ -36,7 +40,8 @@ class CharsLeftInput(forms.TextInput, MediaMixin):
         maxlength = final_attrs.get('maxlength', False)
         if not maxlength:
             return mark_safe(u'<input%s />' % flatatt(final_attrs))
-        current = force_str(int(maxlength) - len(value))
+        maxlength = self.count_threshold or int(maxlength)
+        current = force_str(maxlength - len(value))
         html = u"""
             <span class="charsleft charsleft-input">
             <input %(attrs)s /> 
@@ -45,5 +50,5 @@ class CharsLeftInput(forms.TextInput, MediaMixin):
             </span>
         """ % {'attrs': flatatt(final_attrs),
                'current': current,
-               'maxlength': int(maxlength)}
+               'maxlength': maxlength}
         return mark_safe(html)
