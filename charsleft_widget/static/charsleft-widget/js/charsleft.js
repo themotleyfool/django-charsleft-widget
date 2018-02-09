@@ -25,7 +25,6 @@
       
     this.each(function(i, el) {
       var maxlength = $(this).find('.maxlength').html();
-      var count_threshold = $(this).find('.count_threshold').html();
       var dest = $(this).find(options.dest);
       var source = $(this).find(options.source);
       source.keyup(function(){

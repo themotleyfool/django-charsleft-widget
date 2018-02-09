@@ -13,8 +13,5 @@
 .charsleft .maxlength{
 	display: none;
 }
-.charsleft .count_threshold{
-	display: none;
-}
 .charsleft span .orange{color:#EA1300 !important;}
 .charsleft span .red{color: #D56F24 !important;}
