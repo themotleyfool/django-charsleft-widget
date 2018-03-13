@@ -33,22 +33,39 @@ class CharsLeftInput(forms.TextInput, MediaMixin):
         if value is None:
             value = ''
         extra_attrs = {'type': self.input_type, 'name': name,
-                       'maxlength': self.attrs.get('maxlength')}
+                       'maxlength': self.attrs.get('maxlength'),
+                       'style': self.attrs.get('style')}
         final_attrs = self.build_attrs(attrs, extra_attrs=extra_attrs)
+
         if value != '':
             final_attrs['value'] = force_str(self._format_value(value))
+        
         maxlength = final_attrs.get('maxlength', False)
+        
         if not maxlength:
             return mark_safe(u'<input%s />' % flatatt(final_attrs))
+        
         maxlength = self.count_threshold or int(maxlength)
         current = force_str(maxlength - len(value))
+        text_type = 'input'
+        input_text = ''
+
+        if self.input_type == 'text':
+            text_type = 'textarea'
+            input_text = final_attrs['value']
+
         html = u"""
             <span class="charsleft charsleft-input">
-            <input %(attrs)s /> 
+            <%(text_type)s %(attrs)s class="charsleft-widget">%(input_text)s</%(text_type)s>
             <span><span class="count">%(current)s</span> characters remaining</span>
             <span class="maxlength">%(maxlength)s</span>
             </span>
-        """ % {'attrs': flatatt(final_attrs),
-               'current': current,
-               'maxlength': maxlength}
+        """ % {
+            'attrs': flatatt(final_attrs),
+            'current': current,
+            'maxlength': maxlength,
+            'text_type': text_type,
+            'input_text': input_text,
+        }
+
         return mark_safe(html)

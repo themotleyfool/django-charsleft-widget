@@ -3,7 +3,7 @@
   $.fn.charsLeft = function(options){
   
     var defaults = {  
-      'source':'input',
+      'source':'.charsleft-widget',
       'dest':'.count',
     }
     var options = $.extend(defaults, options);
@@ -13,7 +13,7 @@
       dest.html(remaining);
       /* Over 50%, change colour to orange */
       p=(100*remaining)/maxlength;
-      console.log(p)
+      //console.log(p)
       if(p<25){
         dest.addClass('orange');
       }else if(p<50){
@@ -37,7 +37,7 @@
   };
   $(function() { // Added page ready wrapper
     $(".charsleft-input").charsLeft({
-      'source':'input',
+      'source':'.charsleft-widget',
       'dest':".count",
     });
   });
