@@ -1,6 +1,6 @@
 ![Screenshot](https://github.com/timmyomahony/django-charsleft-widget/blob/master/charsleft-screen-small.jpg?raw=true)
 
-A simple django widget that appends a character count to a text input which is determined by the `max_length` of that particular field. This only works on text *inputs* and not *text areas* (as they don't respect `max_length` anyway)
+A simple django widget that appends a character count to a text input which is determined by the `max_length` of that particular field.
 
 ##Installation
 
@@ -47,7 +47,11 @@ from charsleft_widget.widgets import CharsLeftInput, MediaMixin
 class ExampleAdmin(MediaMixin, admin.ModelAdmin):
   # Use widget on all instances of this form field
   formfield_overrides = {
-    models.TextField: {'widget': CharsLeftInput()},
+    models.TextField: {'widget': CharsLeftInput(attrs={
+      'maxlength': 200,
+      'style': "height: 200px; width: 400px;",
+      })
+    },
   }
 ```
 
